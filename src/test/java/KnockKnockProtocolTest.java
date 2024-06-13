@@ -1,4 +1,3 @@
-import org.Luka.KnockKnockProtocol;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
