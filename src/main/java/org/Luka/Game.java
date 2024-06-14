@@ -81,14 +81,12 @@ public class Game {
 
         GL.createCapabilities();
 
-        rect1 = new Rectangle(-0.5f, 0.0f, 0.10f, 0.15f, 1.0f, 0.20f, 0.5f);
-        rect2 = new Rectangle(0.5f, 0.0f, 0.10f, 0.15f, 0.5f, 0.0f, 0.75f);
+        rect1 = new Rectangle(-0.5f, 0.0f, 0.10f, 0.15f);
+        rect2 = new Rectangle(0.5f, 0.0f, 0.10f, 0.15f);
     }
 
     private void loop() {
         Shader shaderProgram = Shader.getInstance();
-
-        glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -99,9 +97,8 @@ public class Game {
             rect1.handleKeyboardInput(window, "left");
             rect2.handleKeyboardInput(window, "right");
 
-
-            if (rect1.isCollidingWith(rect2)) System.out.println("Collision detected!");
-
+            if (!rect1.isCollidingWith(rect2)) glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
+            else glClearColor(0.9f, 0.0f, 0.0f, 0.0f);
 
 
             glfwSwapBuffers(window);

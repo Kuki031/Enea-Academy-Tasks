@@ -23,14 +23,14 @@ public class Rectangle {
     private int vao;
     private int vbo;
 
-    public Rectangle(float xPos, float yPos, float width, float height, float r, float g, float b) {
+    public Rectangle(float xPos, float yPos, float width, float height) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.r = (float) Math.random() * 1;
+        this.g = (float) Math.random() * 1;
+        this.b = (float) Math.random() * 1;
         initializeBuffers();
     }
 
