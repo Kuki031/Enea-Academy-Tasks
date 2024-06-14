@@ -19,7 +19,6 @@ public class Shader {
         return instance;
     }
 
-    // Method to create the shader program
     private static void createShaderProgram() {
         String vertexShaderSource = "#version 330 core\n" +
                 "layout(location = 0) in vec3 position;\n" +
@@ -55,7 +54,6 @@ public class Shader {
         glDeleteShader(fragmentShader);
     }
 
-    // Method to check compile errors
     private static void checkCompileErrors(int shader, String type) {
         int success;
         if (type.equals("PROGRAM")) {
