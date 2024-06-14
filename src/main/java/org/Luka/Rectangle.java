@@ -13,8 +13,12 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class Rectangle {
 
+    private static final float MAX_WINDOW = 1.0f;
+    private static final float SPEED = 0.01f;
+
     private float xPos;
     private float yPos;
+    private float zPos = 0.0f;
     private float width;
     private float height;
     private float r;
@@ -36,13 +40,13 @@ public class Rectangle {
 
     private void initializeBuffers() {
         float[] vertices = {
-                xPos - width,  yPos + height, 0.0f,  r, g, b,
-                xPos - width, yPos - height, 0.0f,  r, g, b,
-                xPos + width, yPos - height, 0.0f,  r, g, b,
+                xPos - width,  yPos + height, zPos,  r, g, b,
+                xPos - width, yPos - height, zPos,  r, g, b,
+                xPos + width, yPos - height, zPos,  r, g, b,
 
-                xPos - width,  yPos + height, 0.0f,  r, g, b,
-                xPos + width, yPos - height, 0.0f,  r, g, b,
-                xPos + width,  yPos + height, 0.0f,  r, g, b,
+                xPos - width,  yPos + height, zPos,  r, g, b,
+                xPos + width, yPos - height, zPos,  r, g, b,
+                xPos + width,  yPos + height, zPos,  r, g, b,
         };
 
         vao = glGenVertexArrays();
@@ -65,43 +69,43 @@ public class Rectangle {
     public void handleKeyboardInput(long window, String player) {
         if (player.equals("left")) {
             if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-                yPos = Math.min(yPos + 0.01f, 1.0f - height); // Move up
+                yPos = Math.min(yPos + SPEED, MAX_WINDOW - height); // Move up
             }
             if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-                yPos = Math.max(yPos - 0.01f, -1.0f + height); // Move down
+                yPos = Math.max(yPos - SPEED, -MAX_WINDOW + height); // Move down
             }
             if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-                xPos = Math.max(xPos - 0.01f, -1.0f + width); // Move left
+                xPos = Math.max(xPos - SPEED, -MAX_WINDOW + width); // Move left
             }
             if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-                xPos = Math.min(xPos + 0.01f, 1.0f - width); // Move right
+                xPos = Math.min(xPos + SPEED, MAX_WINDOW - width); // Move right
             }
         }
         if (player.equals("right")) {
             if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-                yPos = Math.min(yPos + 0.01f, 1.0f - height); // Move up
+                yPos = Math.min(yPos + SPEED, MAX_WINDOW - height); // Move up
             }
             if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-                yPos = Math.max(yPos - 0.01f, -1.0f + height); // Move down
+                yPos = Math.max(yPos - SPEED, -MAX_WINDOW + height); // Move down
             }
             if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-                xPos = Math.max(xPos - 0.01f, -1.0f + width); // Move left
+                xPos = Math.max(xPos - SPEED, -MAX_WINDOW + width); // Move left
             }
             if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-                xPos = Math.min(xPos + 0.01f, 1.0f - width); // Move right
+                xPos = Math.min(xPos + SPEED, MAX_WINDOW - width); // Move right
             }
         }
     }
 
     public void render(Shader shaderInstance) {
         float[] vertices = {
-                xPos - width,  yPos + height, 0.0f,  r, g, b,
-                xPos - width, yPos - height, 0.0f,  r, g, b,
-                xPos + width, yPos - height, 0.0f,  r, g, b,
+                xPos - width,  yPos + height, zPos,  r, g, b,
+                xPos - width, yPos - height, zPos,  r, g, b,
+                xPos + width, yPos - height, zPos,  r, g, b,
 
-                xPos - width,  yPos + height, 0.0f,  r, g, b,
-                xPos + width, yPos - height, 0.0f,  r, g, b,
-                xPos + width,  yPos + height, 0.0f,  r, g, b,
+                xPos - width,  yPos + height, zPos,  r, g, b,
+                xPos + width, yPos - height, zPos,  r, g, b,
+                xPos + width,  yPos + height, zPos,  r, g, b,
         };
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
