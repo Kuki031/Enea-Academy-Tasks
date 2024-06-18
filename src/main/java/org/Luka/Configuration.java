@@ -1,5 +1,7 @@
 package org.Luka;
 
+import static org.lwjgl.glfw.GLFW.*;
+
 public class Configuration {
     private static Configuration instance;
 
@@ -22,8 +24,8 @@ public class Configuration {
     private final float MAX_WINDOW = 1.0f;
     private final float SPEED = 0.01f;
 
-    private final int[] playerAKeys = {87, 83, 65, 68};
-    private final int[] playerBKeys = {265, 264, 263, 262};
+    private final int[] playerAKeys = {GLFW_KEY_W, GLFW_KEY_S,  GLFW_KEY_A, GLFW_KEY_D};
+    private final int[] playerBKeys = {GLFW_KEY_UP, GLFW_KEY_DOWN, GLFW_KEY_LEFT, GLFW_KEY_RIGHT};
 
 
     public int getWIDTH() {

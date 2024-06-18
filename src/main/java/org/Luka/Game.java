@@ -4,26 +4,22 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import java.nio.*;
-import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 
 
 public class Game {
 
     private static Game instance;
-    private Game() {
-
-    }
+    private Game() { }
 
     public static Game getInstance() {
-
         if (instance == null) {
             instance = new Game();
         }
-
         return instance;
     }
 
@@ -31,6 +27,7 @@ public class Game {
 
     private Rectangle rect1;
     private Rectangle rect2;
+    private Counter counter;
 
     public void run() {
         init();
@@ -49,11 +46,10 @@ public class Game {
         if (!glfwInit())
             throw new IllegalStateException("Unable to initialize GLFW");
 
-        glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        // Create the window
         window = glfwCreateWindow(Configuration.getInstance().getWIDTH(), Configuration.getInstance().getHEIGHT(), "Java Game", NULL, NULL);
         if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
@@ -86,10 +82,13 @@ public class Game {
 
         rect1 = new Rectangle(-0.5f, 0.0f, 0.10f, 0.15f);
         rect2 = new Rectangle(0.5f, 0.0f, 0.10f, 0.15f);
+        counter = new Counter(0, "Number of collisions");
     }
+
 
     private void loop() {
         Shader shaderProgram = Shader.getInstance();
+        boolean wasColliding = false;
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -100,8 +99,19 @@ public class Game {
             rect1.handleKeyboardInput(window, "left");
             rect2.handleKeyboardInput(window, "right");
 
-            if (!rect1.isCollidingWith(rect2)) glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
-            else glClearColor(0.9f, 0.0f, 0.0f, 0.0f);
+            boolean isColliding = rect1.isCollidingWith(rect2);
+            if (isColliding) {
+                glClearColor(0.9f, 0.0f, 0.0f, 0.0f);
+                
+                if (!wasColliding) {
+                    counter.increment();
+                    System.out.println(counter.getLabel() + ": " + counter.getCount());
+                    wasColliding = true;
+                }
+            } else {
+                glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
+                wasColliding = false;
+            }
 
 
             glfwSwapBuffers(window);
