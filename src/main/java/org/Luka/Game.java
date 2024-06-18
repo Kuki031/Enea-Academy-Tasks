@@ -10,7 +10,6 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 
-
 public class Game {
 
     private static Game instance;
@@ -85,7 +84,6 @@ public class Game {
         counter = new Counter(0, "Number of collisions");
     }
 
-
     private void loop() {
         Shader shaderProgram = Shader.getInstance();
         boolean wasColliding = false;
@@ -102,10 +100,10 @@ public class Game {
             boolean isColliding = rect1.isCollidingWith(rect2);
             if (isColliding) {
                 glClearColor(0.9f, 0.0f, 0.0f, 0.0f);
-                
+
                 if (!wasColliding) {
                     counter.increment();
-                    System.out.println(counter.getLabel() + ": " + counter.getCount());
+                    updateWindowTitle();
                     wasColliding = true;
                 }
             } else {
@@ -113,13 +111,18 @@ public class Game {
                 wasColliding = false;
             }
 
-
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
+    }
+
+    private void updateWindowTitle() {
+        String newTitle = "Java Game | " + counter.getLabel() + ": " + counter.getCount();
+        glfwSetWindowTitle(window, newTitle);
     }
 
     public static void main(String[] args) {
         Game.getInstance().run();
     }
 }
+
