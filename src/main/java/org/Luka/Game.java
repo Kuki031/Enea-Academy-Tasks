@@ -28,8 +28,6 @@ public class Game {
     }
 
     private long window;
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
 
     private Rectangle rect1;
     private Rectangle rect2;
@@ -56,7 +54,7 @@ public class Game {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(WIDTH, HEIGHT, "Java Game", NULL, NULL);
+        window = glfwCreateWindow(Configuration.getInstance().getWIDTH(), Configuration.getInstance().getHEIGHT(), "Java Game", NULL, NULL);
         if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 

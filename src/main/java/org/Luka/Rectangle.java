@@ -13,8 +13,6 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class Rectangle {
 
-    private static final float MAX_WINDOW = 1.0f;
-    private static final float SPEED = 0.01f;
 
     private float xPos;
     private float yPos;
@@ -26,6 +24,7 @@ public class Rectangle {
     private float b;
     private int vao;
     private int vbo;
+
 
     public Rectangle(float xPos, float yPos, float width, float height) {
         this.xPos = xPos;
@@ -67,33 +66,25 @@ public class Rectangle {
     }
 
     public void handleKeyboardInput(long window, String player) {
-        if (player.equals("left")) {
-            if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-                yPos = Math.min(yPos + SPEED, MAX_WINDOW - height); // Move up
-            }
-            if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-                yPos = Math.max(yPos - SPEED, -MAX_WINDOW + height); // Move down
-            }
-            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-                xPos = Math.max(xPos - SPEED, -MAX_WINDOW + width); // Move left
-            }
-            if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-                xPos = Math.min(xPos + SPEED, MAX_WINDOW - width); // Move right
-            }
+        if (player.equals("left")) movePlayer(Configuration.getInstance().getPlayerAKeys(), window);
+        else movePlayer(Configuration.getInstance().getPlayerBKeys(), window);
+    }
+
+    public void movePlayer(int[] keys, long window) {
+        float SPEED = Configuration.getInstance().getSPEED();
+        float MAX_WINDOW = Configuration.getInstance().getMAX_WINDOW();
+
+        if (glfwGetKey(window, keys[0]) == GLFW_PRESS) {
+            yPos = Math.min(yPos + SPEED, MAX_WINDOW - height);
         }
-        if (player.equals("right")) {
-            if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-                yPos = Math.min(yPos + SPEED, MAX_WINDOW - height); // Move up
-            }
-            if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-                yPos = Math.max(yPos - SPEED, -MAX_WINDOW + height); // Move down
-            }
-            if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-                xPos = Math.max(xPos - SPEED, -MAX_WINDOW + width); // Move left
-            }
-            if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-                xPos = Math.min(xPos + SPEED, MAX_WINDOW - width); // Move right
-            }
+        if (glfwGetKey(window, keys[1]) == GLFW_PRESS) {
+            yPos = Math.max(yPos - SPEED, -MAX_WINDOW + height);
+        }
+        if (glfwGetKey(window, keys[2]) == GLFW_PRESS) {
+            xPos = Math.max(xPos - SPEED, -MAX_WINDOW + width);
+        }
+        if (glfwGetKey(window, keys[3]) == GLFW_PRESS) {
+            xPos = Math.min(xPos + SPEED, MAX_WINDOW - width);
         }
     }
 
